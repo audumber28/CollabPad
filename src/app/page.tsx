@@ -1,102 +1,96 @@
-import Image from "next/image";
+"use client";
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { FaComment, FaPencilAlt, FaGraduationCap, FaUserCircle } from 'react-icons/fa';
+// Import Image is causing issues, so we'll use a different approach
 
-export default function Home() {
+export default function HomePage() {
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const router = useRouter();
+  
+  // User information
+ 
+  const navigateTo = (path: string): void => {
+    router.push(path);
+  };
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="h-screen w-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex flex-col overflow-hidden">
+      {/* Navigation Bar */}
+      <nav className="px-6 py-4 flex justify-between items-center">
+        <div className="flex items-center">
+          <FaGraduationCap className="text-white text-3xl" />
+          <span className="ml-2 text-white text-2xl font-bold">StudySpace</span>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        
+        {/* User Avatar and Info */}
+        
+      </nav>
+
+      {/* Content - Centered on screen */}
+      <div className="flex-1 flex flex-col items-center justify-center px-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-12"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+            Learn, Connect, Create
+          </h1>
+          <p className="text-xl text-white text-opacity-90 max-w-2xl mx-auto">
+            The ultimate platform for students to collaborate, chat with peers, and unleash your creativity with our scribble game.
+          </p>
+        </motion.div>
+
+        {/* Feature Cards - Side by Side */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+          {/* Chat Card */}
+          <motion.div 
+            className="relative rounded-2xl overflow-hidden cursor-pointer h-64"
+            whileHover={{ scale: 1.03 }}
+            onHoverStart={() => setHoveredCard('chat')}
+            onHoverEnd={() => setHoveredCard(null)}
+            onClick={() => navigateTo('/chat')}
+          >
+            <div className={`absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 transition-opacity duration-300 ${hoveredCard === 'chat' ? 'opacity-90' : 'opacity-80'}`}></div>
+            <div className="relative z-10 p-6 flex flex-col h-full justify-center items-center text-center">
+              <div className="bg-white bg-opacity-20 rounded-full w-16 h-16 flex items-center justify-center mb-4">
+                <FaComment className="text-white text-2xl" />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Student Chat</h2>
+              <p className="text-white text-opacity-90">
+                Connect with fellow students, discuss assignments, and share resources.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Scribble Game Card */}
+          <motion.div 
+            className="relative rounded-2xl overflow-hidden cursor-pointer h-64"
+            whileHover={{ scale: 1.03 }}
+            onHoverStart={() => setHoveredCard('scribble')}
+            onHoverEnd={() => setHoveredCard(null)}
+            onClick={() => navigateTo('/draw')}
+          >
+            <div className={`absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-500 transition-opacity duration-300 ${hoveredCard === 'scribble' ? 'opacity-90' : 'opacity-80'}`}></div>
+            <div className="relative z-10 p-6 flex flex-col h-full justify-center items-center text-center">
+              <div className="bg-white bg-opacity-20 rounded-full w-16 h-16 flex items-center justify-center mb-4">
+                <FaPencilAlt className="text-white text-2xl" />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Scribble Game</h2>
+              <p className="text-white text-opacity-90">
+                Challenge your creativity with our multiplayer drawing and guessing game.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Simple Footer */}
+      <footer className="p-4 text-center text-white text-opacity-70 text-sm">
+        © 2025 StudySpace. All rights reserved.
       </footer>
     </div>
   );
